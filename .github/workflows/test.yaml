@@ -19,11 +19,7 @@ jobs:
         -p ${{ secrets.GITHUB_TOKEN }}
     # use previously built image for cache if possible
     - run: docker pull $REPO:latest | true
-    - run: >
-        docker build .
-        -t $REPO:latest
-        -t $REPO:${GITHUB_SHA}
-        --cache-from $REPO:latest
+    - run: docker build . -t $REPO:latest -t $REPO:${GITHUB_SHA} --cache-from docker.pkg.github.com/promaty/actions-test/img:latest
     - run: docker push $REPO:latest
     - run: docker push $REPO:${GITHUB_SHA}
 
