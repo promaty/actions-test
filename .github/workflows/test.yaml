@@ -18,10 +18,11 @@ jobs:
         -u $GITHUB_ACTOR
         -p ${{ secrets.GITHUB_TOKEN }}
     # use previously built image for cache if possible
-    - run: docker pull $REPO:latest | true
-    - run: docker build . -t $REPO:latest -t $REPO:${GITHUB_SHA} --cache-from docker.pkg.github.com/promaty/actions-test/img:latest
-    - run: docker push $REPO:latest
-    - run: docker push $REPO:${GITHUB_SHA}
+    - run: docker images
+    - run: docker pull docker.pkg.github.com/promaty/actions-test/img:latest
+    - run: docker images
+    - run: docker build . -t tst -t docker.pkg.github.com/promaty/actions-test/img:latest --cache-from docker.pkg.github.com/promaty/actions-test/img:latest
+    - run: docker push docker.pkg.github.com/promaty/actions-test/img:latest
 
 
   # deploy:
