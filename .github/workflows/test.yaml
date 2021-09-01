@@ -1,6 +1,8 @@
 name: TEST
 on:
   push:
+    branches:
+    - '**'
     paths:
     - '**'
 
