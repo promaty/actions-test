@@ -4,7 +4,7 @@ on:
     paths:
     - '**'
 
-env:
+# env:
   # This is a base repository and we use ${GITHUB_SHA} to set the version of the container
   # REPO: docker.pkg.github.com/promaty/actions-test/img
 
@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    
+
     # - run: >
     #     docker login docker.pkg.github.com
     #     -u $GITHUB_ACTOR
