@@ -1,31 +1,38 @@
 name: TEST
 on:
   push:
-    branches:
-    - master
+    paths:
+    - '**'
 
 env:
   # This is a base repository and we use ${GITHUB_SHA} to set the version of the container
-  REPO: docker.pkg.github.com/promaty/actions-test/img
+  # REPO: docker.pkg.github.com/promaty/actions-test/img
 
 jobs:
-  build:
+  buildany:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: >
-        docker login docker.pkg.github.com
-        -u $GITHUB_ACTOR
-        -p ${{ secrets.GITHUB_TOKEN }}
-    # use previously built image for cache if possible
-    - run: docker pull $REPO:latest || true
-    - run: >
-        docker build .
-        -t $REPO:latest
-        -t $REPO:${GITHUB_SHA}
-        --cache-from $REPO:latest
-    - run: docker push $REPO:latest
-    - run: docker push $REPO:${GITHUB_SHA}
+
+  build:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    # - run: >
+    #     docker login docker.pkg.github.com
+    #     -u $GITHUB_ACTOR
+    #     -p ${{ secrets.GITHUB_TOKEN }}
+    # # use previously built image for cache if possible
+    # - run: docker pull $REPO:latest || true
+    # - run: >
+    #     docker build .
+    #     -t $REPO:latest
+    #     -t $REPO:${GITHUB_SHA}
+    #     --cache-from $REPO:latest
+    # - run: docker push $REPO:latest
+    # - run: docker push $REPO:${GITHUB_SHA}
 
 
   # deploy:
